@@ -26,7 +26,7 @@
 	},
 	"dependencies": {
 		"@hugoalh/advanced-determine": "^10.2.1",
-		"@hugoalh/unique-array": "^2.0.1"
+		"@hugoalh/unique-array": "^3.0.0"
 	},
 	"devDependencies": {
 		"@types/node": "^18.15.11",
