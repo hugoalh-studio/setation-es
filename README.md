@@ -37,7 +37,6 @@ npm install @hugoalh/setation
 /* Either */
 import { ... } from "@hugoalh/setation";// Named Import
 import * as setation from "@hugoalh/setation";// Namespace Import
-import setation from "@hugoalh/setation";// Default Import
 ```
 
 ### API
