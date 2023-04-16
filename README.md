@@ -39,10 +39,14 @@ import * as setation from "@hugoalh/setation";// Namespace Import
 #### Generator Function
 
 - ```ts
-  combination<T>(set: T[] | Set<T>, select: number): Generator<T[], void, unknown>;
+  combination<T>(set: T[] | Set<T>, size: number | number[]): Generator<T[], void, unknown>;
+  combination<T>(set: T[] | Set<T>, sizeMinimum: number, sizeMaximum: number): Generator<T[], void, unknown>;
+  combination<T>(set: T[] | Set<T>, options: CombinationOptions = {}): Generator<T[], void, unknown>;
   ```
 - ```ts
-  permutation<T>(set: T[] | Set<T>, select: number): Generator<T[], void, unknown>;
+  permutation<T>(set: T[] | Set<T>, size: number | number[]): Generator<T[], void, unknown>;
+  permutation<T>(set: T[] | Set<T>, sizeMinimum: number, sizeMaximum: number): Generator<T[], void, unknown>;
+  permutation<T>(set: T[] | Set<T>, options: PermutationOptions = {}): Generator<T[], void, unknown>;
   ```
 
 ### Example
