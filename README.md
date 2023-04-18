@@ -49,6 +49,33 @@ import * as setation from "@hugoalh/setation";// Namespace Import
   permutation<T>(set: T[] | Set<T>, options: PermutationOptions = {}): Generator<T[], void, unknown>;
   ```
 
+#### Interface / Type
+
+- ```ts
+  interface CombinationOptions {
+    /* Whether to allow the same element repeat appear in the same subset. [Default: `false`] */
+    allowRepeat?: boolean;
+    /* Size of the subset. */
+    size?: number | number[];
+    /* Maximum size of the subset. */
+    sizeMaximum?: number;
+    /* Minimum size of the subset. */
+    sizeMinimum?: number;
+  }
+  ```
+- ```ts
+  interface PermutationOptions {
+    /* Whether to allow the same element repeat appear in the same subset. [Default: `false`] */
+    allowRepeat?: boolean;
+    /* Size of the subset. */
+    size?: number | number[];
+    /* Maximum size of the subset. */
+    sizeMaximum?: number;
+    /* Minimum size of the subset. */
+    sizeMinimum?: number;
+  }
+  ```
+
 ### Example
 
 ```js

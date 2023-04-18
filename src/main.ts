@@ -4,42 +4,6 @@ const numberIPSFilter = new NumberItemFilter({
 	positive: true,
 	safe: true
 });
-interface SetationIndexIteratorParameters {
-	allowRepeat?: boolean;
-	chain?: number[];
-	set: number[];
-	size: number;
-}
-interface SetationOptions {
-	/**
-	 * @property allowRepeat
-	 * @description Whether to allow the same element repeat appear in the same subset.
-	 * @default false
-	 */
-	allowRepeat?: boolean;
-	/**
-	 * @property select
-	 * @description Size of the subset.
-	 * @default undefined
-	 */
-	size?: number | number[];
-	/**
-	 * @property selectMaximum
-	 * @description Maximum size of the subset.
-	 * @default undefined
-	 */
-	sizeMaximum?: number;
-	/**
-	 * @property selectMinimum
-	 * @description Minimum size of the subset.
-	 * @default undefined
-	 */
-	sizeMinimum?: number;
-}
-interface SetationInternalParameters<T> extends SetationOptions {
-	considerOrder: boolean;
-	set: T[] | Set<T>;
-}
 /**
  * @access private
  * @function numbersSorter
@@ -49,6 +13,12 @@ interface SetationInternalParameters<T> extends SetationOptions {
  */
 function numbersSorter(a: number, b: number): number {
 	return (a - b);
+}
+interface SetationIndexIteratorParameters {
+	allowRepeat?: boolean;
+	chain?: number[];
+	set: number[];
+	size: number;
 }
 /**
  * @access private
@@ -80,7 +50,36 @@ function* setationIndexIterator(param: SetationIndexIteratorParameters): Generat
 		}
 	}
 }
-/**
+interface SetationOptions {
+	/**
+	 * @property allowRepeat
+	 * @description Whether to allow the same element repeat appear in the same subset.
+	 * @default false
+	 */
+	allowRepeat?: boolean;
+	/**
+	 * @property select
+	 * @description Size of the subset.
+	 * @default undefined
+	 */
+	size?: number | number[];
+	/**
+	 * @property selectMaximum
+	 * @description Maximum size of the subset.
+	 * @default undefined
+	 */
+	sizeMaximum?: number;
+	/**
+	 * @property selectMinimum
+	 * @description Minimum size of the subset.
+	 * @default undefined
+	 */
+	sizeMinimum?: number;
+}
+interface SetationInternalParameters<T> extends SetationOptions {
+	considerOrder: boolean;
+	set: T[] | Set<T>;
+}/**
  * @access private
  * @generator setation
  * @template {unknown} T
@@ -98,9 +97,7 @@ function* setation<T>(param: SetationInternalParameters<T>): Generator<T[], void
 	} = param;
 	let setRaw: T[];
 	if (Array.isArray(set)) {
-		setRaw = set.map((value: T): T => {
-			return value;
-		});
+		setRaw = set;
 	} else if (set instanceof Set) {
 		setRaw = Array.from(set.values());
 	} else {
@@ -125,7 +122,7 @@ function* setation<T>(param: SetationInternalParameters<T>): Generator<T[], void
 		}
 	} else if (typeof size !== "undefined" && typeof sizeMaximum === "undefined" && typeof sizeMinimum === "undefined") {
 		if (Array.isArray(size) && size.every((value: number): boolean => {
-			return (typeof value === "number" && numberIPSFilter.test(value) && value <= setRaw.length);
+			return (numberIPSFilter.test(value) && value <= setRaw.length);
 		})) {
 			size.forEach((value: number): void => {
 				sizesRaw.add(value);

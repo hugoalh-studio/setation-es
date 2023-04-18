@@ -40,20 +40,11 @@ function* setationIndexIterator(param) {
         }
     }
 }
-/**
- * @access private
- * @generator setation
- * @template {unknown} T
- * @param {SetationInternalParameters<T>} param
- * @returns {Generator<T[], void, unknown>} A subset generator.
- */
 function* setation(param) {
     let { allowRepeat = false, considerOrder, size, sizeMaximum, sizeMinimum, set } = param;
     let setRaw;
     if (Array.isArray(set)) {
-        setRaw = set.map((value) => {
-            return value;
-        });
+        setRaw = set;
     }
     else if (set instanceof Set) {
         setRaw = Array.from(set.values());
@@ -79,7 +70,7 @@ function* setation(param) {
     }
     else if (typeof size !== "undefined" && typeof sizeMaximum === "undefined" && typeof sizeMinimum === "undefined") {
         if (Array.isArray(size) && size.every((value) => {
-            return (typeof value === "number" && numberIPSFilter.test(value) && value <= setRaw.length);
+            return (numberIPSFilter.test(value) && value <= setRaw.length);
         })) {
             size.forEach((value) => {
                 sizesRaw.add(value);
