@@ -1,6 +1,6 @@
 {
 	"name": "@hugoalh/setation",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A module to list permutation and combination from a set.",
 	"keywords": [
 		"combination",
@@ -23,9 +23,6 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/hugoalh-studio/setation-nodejs.git"
-	},
-	"dependencies": {
-		"@hugoalh/advanced-determine": "^10.3.3"
 	},
 	"devDependencies": {
 		"@types/node": "^18.15.11",

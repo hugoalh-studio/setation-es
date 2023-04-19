@@ -1,9 +1,3 @@
-import { NumberItemFilter } from "@hugoalh/advanced-determine";
-const numberIPSFilter = new NumberItemFilter({
-	integer: true,
-	positive: true,
-	safe: true
-});
 /**
  * @access private
  * @function numbersSorter
@@ -121,23 +115,29 @@ function* setation<T>(param: SetationInternalParameters<T>): Generator<T[], void
 			sizesRaw.add(index);
 		}
 	} else if (typeof size !== "undefined" && typeof sizeMaximum === "undefined" && typeof sizeMinimum === "undefined") {
-		if (Array.isArray(size) && size.every((value: number): boolean => {
-			return (numberIPSFilter.test(value) && value <= setRaw.length);
+		if (!Array.isArray(size)) {
+			size = [size];
+		}
+		if (!size.every((value: number): boolean => {
+			return (typeof value === "number" && !Number.isNaN(value) && Number.isSafeInteger(value) && value >= 0 && value <= setRaw.length);
 		})) {
-			size.forEach((value: number): void => {
-				sizesRaw.add(value);
-			});
-		} else if (typeof size === "number" && numberIPSFilter.test(size) && size <= setRaw.length) {
-			sizesRaw.add(size);
-		} else {
-			throw new TypeError(`Argument \`size\` must be type of number (integer, positive and safe) and <= ${setRaw.length}, number[] (integer, positive and safe) and <= ${setRaw.length}, or undefined!`);
+			throw new TypeError(`Argument \`size\` must be type of number (integer, positive, safe and <= ${setRaw.length}), number[] (integer, positive, safe and <= ${setRaw.length}), or undefined!`);
 		}
+		size.forEach((value: number): void => {
+			sizesRaw.add(value);
+		});
 	} else if (typeof size === "undefined" && typeof sizeMaximum !== "undefined" && typeof sizeMinimum !== "undefined") {
-		if (!(typeof sizeMaximum === "number" && numberIPSFilter.test(sizeMaximum) && sizeMaximum <= setRaw.length)) {
-			throw new TypeError(`Argument \`sizeMaximum\` must be type of number (integer, positive and safe) and <= ${setRaw.length}!`);
+		if (!(typeof sizeMaximum === "number" && !Number.isNaN(sizeMaximum))) {
+			throw new TypeError(`Argument \`sizeMaximum\` must be type of number!`);
 		}
-		if (!(typeof sizeMinimum === "number" && numberIPSFilter.test(sizeMinimum) && sizeMinimum <= sizeMaximum)) {
-			throw new TypeError(`Argument \`sizeMinimum\` must be type of number (integer, positive and safe) and <= ${sizeMaximum}!`);
+		if (!(Number.isSafeInteger(sizeMaximum) && sizeMaximum >= 0 && sizeMaximum <= setRaw.length)) {
+			throw new RangeError(`Argument \`sizeMaximum\` must be a number which is integer, positive, safe, and <= ${setRaw.length}!`);
+		}
+		if (!(typeof sizeMinimum === "number" && !Number.isNaN(sizeMinimum))) {
+			throw new TypeError(`Argument \`sizeMinimum\` must be type of number!`);
+		}
+		if (!(Number.isSafeInteger(sizeMinimum) && sizeMinimum >= 0 && sizeMinimum <= sizeMaximum)) {
+			throw new RangeError(`Argument \`sizeMinimum\` must be a number which is integer, positive, safe, and <= ${sizeMaximum}!`);
 		}
 		for (let index: number = sizeMinimum; index <= sizeMaximum; index++) {
 			sizesRaw.add(index);
