@@ -53,26 +53,18 @@ import * as setation from "@hugoalh/setation";// Namespace Import
 
 - ```ts
   interface CombinationOptions {
-    /* Whether to allow the same element repeat appear in the same subset. [Default: `false`] */
-    allowRepeat?: boolean;
-    /* Size of the subset. */
-    size?: number | number[];
-    /* Maximum size of the subset. */
-    sizeMaximum?: number;
-    /* Minimum size of the subset. */
-    sizeMinimum?: number;
+    allowRepeat: boolean = false;// Whether to allow the same element repeat appear in the same subset.
+    size?: number | number[];// Size of the subset.
+    sizeMaximum?: number;// Maximum size of the subset.
+    sizeMinimum?: number;// Minimum size of the subset.
   }
   ```
 - ```ts
   interface PermutationOptions {
-    /* Whether to allow the same element repeat appear in the same subset. [Default: `false`] */
-    allowRepeat?: boolean;
-    /* Size of the subset. */
-    size?: number | number[];
-    /* Maximum size of the subset. */
-    sizeMaximum?: number;
-    /* Minimum size of the subset. */
-    sizeMinimum?: number;
+    allowRepeat: boolean = false;// Whether to allow the same element repeat appear in the same subset.
+    size?: number | number[];// Size of the subset.
+    sizeMaximum?: number;// Maximum size of the subset.
+    sizeMinimum?: number;// Minimum size of the subset.
   }
   ```
 
