@@ -44,6 +44,9 @@ import * as setation from "@hugoalh/setation";// Namespace Import
   combination<T>(set: T[] | Set<T>, options: CombinationOptions = {}): Generator<T[], void, unknown>;
   ```
 - ```ts
+  combinationObject<V>(set: { [x: string]: V | V[]; } | Map<string, V | V[]>): Generator<{ [x: string]: V; }, void, unknown>;
+  ```
+- ```ts
   permutation<T>(set: T[] | Set<T>, size: number | number[]): Generator<T[], void, unknown>;
   permutation<T>(set: T[] | Set<T>, sizeMinimum: number, sizeMaximum: number): Generator<T[], void, unknown>;
   permutation<T>(set: T[] | Set<T>, options: PermutationOptions = {}): Generator<T[], void, unknown>;
@@ -111,37 +114,18 @@ Array.from(permutation(item, 3));
   [ "b", "e", "d" ], [ "b", "e", "f" ],
   [ "b", "f", "a" ], [ "b", "f", "c" ],
   [ "b", "f", "d" ], [ "b", "f", "e" ],
-  [ "c", "a", "b" ], [ "c", "a", "d" ],
-  [ "c", "a", "e" ], [ "c", "a", "f" ],
-  [ "c", "b", "a" ], [ "c", "b", "d" ],
-  [ "c", "b", "e" ], [ "c", "b", "f" ],
-  [ "c", "d", "a" ], [ "c", "d", "b" ],
-  [ "c", "d", "e" ], [ "c", "d", "f" ],
-  [ "c", "e", "a" ], [ "c", "e", "b" ],
-  [ "c", "e", "d" ], [ "c", "e", "f" ],
-  [ "c", "f", "a" ], [ "c", "f", "b" ],
-  [ "c", "f", "d" ], [ "c", "f", "e" ],
-  [ "d", "a", "b" ], [ "d", "a", "c" ],
-  [ "d", "a", "e" ], [ "d", "a", "f" ],
-  [ "d", "b", "a" ], [ "d", "b", "c" ],
-  [ "d", "b", "e" ], [ "d", "b", "f" ],
-  [ "d", "c", "a" ], [ "d", "c", "b" ],
-  [ "d", "c", "e" ], [ "d", "c", "f" ],
-  [ "d", "e", "a" ], [ "d", "e", "b" ],
-  [ "d", "e", "c" ], [ "d", "e", "f" ],
-  [ "d", "f", "a" ], [ "d", "f", "b" ],
-  [ "d", "f", "c" ], [ "d", "f", "e" ],
-  [ "e", "a", "b" ], [ "e", "a", "c" ],
-  [ "e", "a", "d" ], [ "e", "a", "f" ],
-  [ "e", "b", "a" ], [ "e", "b", "c" ],
-  [ "e", "b", "d" ], [ "e", "b", "f" ],
-  [ "e", "c", "a" ], [ "e", "c", "b" ],
-  [ "e", "c", "d" ], [ "e", "c", "f" ],
-  [ "e", "d", "a" ], [ "e", "d", "b" ],
-  [ "e", "d", "c" ], [ "e", "d", "f" ],
-  [ "e", "f", "a" ], [ "e", "f", "b" ],
-  [ "e", "f", "c" ], [ "e", "f", "d" ],
-  ... +20
+  ... +80
+]
+*/
+
+Array.from(combinationObject({ foo: [1, 2, 3], bar: [4, 5, 6] }));
+/*=>
+[
+  { foo: 1, bar: 4 }, { foo: 1, bar: 5 },
+  { foo: 1, bar: 6 }, { foo: 2, bar: 4 },
+  { foo: 2, bar: 5 }, { foo: 2, bar: 6 },
+  { foo: 3, bar: 4 }, { foo: 3, bar: 5 },
+  { foo: 3, bar: 6 }
 ]
 */
 ```
