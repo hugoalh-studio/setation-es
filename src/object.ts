@@ -64,7 +64,7 @@ function* setationObject<V>(set: { [x: string]: V | V[]; } | Map<string, V | V[]
 		yield {};
 		return;
 	}
-	for (let item of setationObjectIterator<V>(setResolve)) {
+	for (let item of setationObjectIterator(setResolve)) {
 		yield item;
 	}
 }
