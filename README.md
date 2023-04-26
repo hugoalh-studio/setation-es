@@ -44,6 +44,7 @@ import * as setation from "@hugoalh/setation";// Namespace Import
   combination<T>(set: T[] | Set<T>, options: CombinationOptions = {}): Generator<T[], void, unknown>;
   ```
 - ```ts
+  /* >= v1.2.0 */
   combinationObject<V>(set: { [x: string]: V | V[]; } | Map<string, V | V[]>): Generator<{ [x: string]: V; }, void, unknown>;
   ```
 - ```ts
