@@ -45,7 +45,7 @@ import * as setation from "@hugoalh/setation";// Namespace Import
   ```
 - ```ts
   /* >= v1.2.0 */
-  combinationObject<V>(set: { [x: string]: V | V[]; } | Map<string, V | V[]>): Generator<{ [x: string]: V; }, void, unknown>;
+  combinationMatrix<V>(set: { [x: string]: V | V[]; } | Map<string, V | V[]>): Generator<{ [x: string]: V; }, void, unknown>;
   ```
 - ```ts
   permutation<T>(set: T[] | Set<T>, size: number | number[]): Generator<T[], void, unknown>;
@@ -119,7 +119,7 @@ Array.from(permutation(item, 3));
 ]
 */
 
-Array.from(combinationObject({ foo: [1, 2, 3], bar: [4, 5, 6] }));
+Array.from(combinationMatrix({ foo: [1, 2, 3], bar: [4, 5, 6] }));
 /*=>
 [
   { foo: 1, bar: 4 }, { foo: 1, bar: 5 },

@@ -70,4 +70,4 @@ function* setationObject(set) {
         yield item;
     }
 }
-export { setationObject as combinationObject };
+export { setationObject as combinationMatrix };

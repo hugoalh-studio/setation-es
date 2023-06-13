@@ -69,5 +69,5 @@ function* setationObject<V>(set: { [x: string]: V | V[]; } | Map<string, V | V[]
 	}
 }
 export {
-	setationObject as combinationObject
+	setationObject as combinationMatrix
 };

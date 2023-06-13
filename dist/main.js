@@ -1,3 +1,3 @@
 import { combination, permutation } from "./array.js";
-import { combinationObject } from "./object.js";
-export { combination, combinationObject, permutation };
+import { combinationMatrix } from "./object.js";
+export { combination, combinationMatrix, permutation };

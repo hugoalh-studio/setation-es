@@ -10,5 +10,5 @@ declare function setationObject<V>(set: {
 } | Map<string, V | V[]>): Generator<{
     [x: string]: V;
 }, void, unknown>;
-export { setationObject as combinationObject };
+export { setationObject as combinationMatrix };
 //# sourceMappingURL=object.d.ts.map
