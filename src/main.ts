@@ -1,9 +1,2 @@
-import { combination, permutation, type CombinationOptions, type PermutationOptions } from "./array.js";
-import { combinationMatrix } from "./object.js";
-export {
-	combination,
-	combinationMatrix,
-	permutation,
-	type CombinationOptions,
-	type PermutationOptions
-};
+export { combination, permutation, type CombinationOptions, type PermutationOptions } from "./array.js";
+export { combinationMatrix } from "./object.js";

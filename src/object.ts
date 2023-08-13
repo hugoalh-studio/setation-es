@@ -1,73 +1,79 @@
 /**
  * @access private
- * @function objectSlice
- * @template {unknown} T
- * @param {{ [x: string]: T; }} o Object.
- * @param {string} key Key.
- * @returns {{ [x: string]: T; }}
+ * @template {unknown} K
+ * @template {unknown} V
+ * @param {Map<K, V>} item
+ * @param {K} key
+ * @returns {Map<K, V>}
  */
-function objectSlice<T>(o: { [x: string]: T; }, key: string): { [x: string]: T; } {
-	let oClone: { [x: string]: T; } = { ...o };
-	delete oClone[key];
-	return oClone;
+function sliceMap<K, V>(item: Map<K, V>, key: K): Map<K, V> {
+	let itemClone: Map<K, V> = new Map<K, V>(item);
+	itemClone.delete(key);
+	return itemClone;
 }
 /**
  * @access private
- * @generator setationObjectIterator
+ * @template {unknown} K
  * @template {unknown} V
- * @param {{ [x: string]: V[]; }} set
- * @param {Map<string, V>} chain
- * @returns {Generator<{ [x: string]: V; }, void, unknown>}
+ * @param {Map<K, V[]>} set
+ * @param {Map<K, V>} chain
+ * @returns {Generator<Map<K, V>, void, unknown>}
  */
-function* setationObjectIterator<V>(set: { [x: string]: V[]; }, chain: Map<string, V> = new Map<string, V>()): Generator<{ [x: string]: V; }, void, unknown> {
-	let entriesCurrentKey: string = Object.keys(set)[0];
-	let entriesRest: { [x: string]: V[]; } = objectSlice(set, entriesCurrentKey);
-	for (let entryCurrentValue of set[entriesCurrentKey]) {
-		chain.set(entriesCurrentKey, entryCurrentValue);
-		if (Object.entries(entriesRest).length === 0) {
-			let result: { [x: string]: V; } = {};
-			chain.forEach((value: V, key: string): void => {
-				result[key] = value;
-			});
-			yield result;
+function* setationMapIterator<K, V>(set: Map<K, V[]>, chain: Map<K, V> = new Map<K, V>()): Generator<Map<K, V>, void, unknown> {
+	let currentKey: K = Array.from(set.keys())[0];
+	let rest: Map<K, V[]> = sliceMap<K, V[]>(set, currentKey);
+	for (let currentValue of set.get(currentKey)) {
+		chain.set(currentKey, currentValue);
+		if (rest.size === 0) {
+			yield new Map<K, V>(chain);
 		} else {
-			for (let item of setationObjectIterator(entriesRest, chain)) {
+			for (let item of setationMapIterator(rest, chain)) {
 				yield item;
 			}
 		}
 	}
 }
 /**
- * @generator setationObject
- * @description List combinations from a object.
+ * List combinations from a map.
+ * @template {unknown} K
  * @template {unknown} V
- * @param {{ [x: string]: V | V[]; } | Map<string, V | V[]>} set Set.
- * @returns {Generator<{ [x: string]: V; }, void, unknown>} A combinations subset generator.
+ * @param {Map<K, V | V[]>} set Set.
+ * @returns {Generator<Map<K, V>, void, unknown>} A combinations subset generator.
  */
-function* setationObject<V>(set: { [x: string]: V | V[]; } | Map<string, V | V[]>): Generator<{ [x: string]: V; }, void, unknown> {
-	let setResolve: { [x: string]: V[]; } = {};
+export function combinationMatrix<K, V>(set: Map<K, V | V[]>): Generator<Map<K, V>, void, unknown>;
+/**
+ * List combinations from an object.
+ * @template {unknown} V
+ * @param {Record<string, V | V[]>} set Set.
+ * @returns {Generator<Record<string, V>, void, unknown>} A combinations subset generator.
+ */
+export function combinationMatrix<V>(set: Record<string, V | V[]>): Generator<Record<string, V>, void, unknown>;
+export function* combinationMatrix<K, V>(set: Map<K, V | V[]> | Record<string, V | V[]>) {
+	let resultIsRecord = false;
+	let setResolve: Map<K, V[]> = new Map<K, V[]>();
 	if (set instanceof Map) {
-		if (!Array.from(set.keys()).every((key: string): boolean => {
-			return (typeof key === "string" && key.length > 0);
-		})) {
-			throw new TypeError(`Argument \`set[key]\` must be type of string (non-empty)!`);
-		}
 		for (let [key, value] of set.entries()) {
-			setResolve[key] = Array.isArray(value) ? value : [value];
+			setResolve.set(key, Array.isArray(value) ? value : [value]);
 		}
 	} else {
+		resultIsRecord = true;
 		for (let [key, value] of Object.entries(set)) {
-			setResolve[key] = Array.isArray(value) ? value : [value];
+			setResolve.set(key as K, Array.isArray(value) ? value : [value]);
 		}
 	}
-	if (Object.entries(setResolve).length === 0) {
-		yield {};
+	if (setResolve.size === 0) {
+		yield (resultIsRecord ? {} : new Map<K, V>());
 		return;
 	}
-	for (let item of setationObjectIterator(setResolve)) {
-		yield item;
+	for (let item of setationMapIterator(setResolve)) {
+		if (resultIsRecord) {
+			let result: Record<string, V> = {};
+			for (let [key, value] of item.entries()) {
+				result[key as string] = value;
+			}
+			yield result;
+		} else {
+			yield item;
+		}
 	}
 }
-export {
-	setationObject as combinationMatrix
-};

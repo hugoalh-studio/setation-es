@@ -1,6 +1,5 @@
 /**
  * @access private
- * @function sorterForNumbers
  * @param {number} a
  * @param {number} b
  * @returns {number}
@@ -16,7 +15,6 @@ interface SetationArrayIndexIteratorParameters {
 }
 /**
  * @access private
- * @generator setationArrayIndexIterator
  * @param {SetationArrayIndexIteratorParameters} param
  * @returns {Generator<number[], void, unknown>} An array subset index generator.
  */
@@ -46,26 +44,22 @@ function* setationArrayIndexIterator(param: SetationArrayIndexIteratorParameters
 }
 interface SetationArrayOptions {
 	/**
-	 * @property allowRepeat
-	 * @description Whether to allow the same element repeat appear in the same subset.
+	 * Whether to allow the same element repeat appear in the same subset.
 	 * @default false
 	 */
 	allowRepeat?: boolean;
 	/**
-	 * @property select
-	 * @description Size of the subset.
+	 * Size of the subset.
 	 * @default undefined
 	 */
 	size?: number | number[];
 	/**
-	 * @property selectMaximum
-	 * @description Maximum size of the subset.
+	 * Maximum size of the subset.
 	 * @default undefined
 	 */
 	sizeMaximum?: number;
 	/**
-	 * @property selectMinimum
-	 * @description Minimum size of the subset.
+	 * Minimum size of the subset.
 	 * @default undefined
 	 */
 	sizeMinimum?: number;
@@ -76,7 +70,6 @@ interface SetationArrayInternalParameters<T> extends SetationArrayOptions {
 }
 /**
  * @access private
- * @generator setationArray
  * @template {unknown} T
  * @param {SetationArrayInternalParameters<T>} param
  * @returns {Generator<T[], void, unknown>} A subset generator.
@@ -100,9 +93,6 @@ function* setationArray<T>(param: SetationArrayInternalParameters<T>): Generator
 	}
 	if (typeof allowRepeat !== "boolean") {
 		throw new TypeError(`Argument \`allowRepeat\` must be type of boolean!`);
-	}
-	if (typeof considerOrder !== "boolean") {
-		throw new TypeError(`Argument \`considerOrder\` must be type of boolean!`);
 	}
 	let sizesRaw: Set<number> = new Set<number>();
 	if (typeof size !== "undefined" && (
@@ -191,8 +181,7 @@ function* setationArray<T>(param: SetationArrayInternalParameters<T>): Generator
 	}
 }
 /**
- * @function combination
- * @description List combinations from a set.
+ * List combinations from a set.
  * @template {unknown} T
  * @param {T[] | Set<T>} set Set.
  * @param {number | number[]} size Size of the subset.
@@ -200,8 +189,7 @@ function* setationArray<T>(param: SetationArrayInternalParameters<T>): Generator
  */
 function combination<T>(set: T[] | Set<T>, size: number | number[]): Generator<T[], void, unknown>;
 /**
- * @function combination
- * @description List combinations from a set.
+ * List combinations from a set.
  * @template {unknown} T
  * @param {T[] | Set<T>} set Set.
  * @param {number} sizeMinimum Minimum size of the subset.
@@ -210,23 +198,13 @@ function combination<T>(set: T[] | Set<T>, size: number | number[]): Generator<T
  */
 function combination<T>(set: T[] | Set<T>, sizeMinimum: number, sizeMaximum: number): Generator<T[], void, unknown>;
 /**
- * @function combination
- * @description List combinations from a set.
+ * List combinations from a set.
  * @template {unknown} T
  * @param {T[] | Set<T>} set Set.
  * @param {SetationArrayOptions} [options] Options.
  * @returns {Generator<T[], void, unknown>} A combinations subset generator.
  */
 function combination<T>(set: T[] | Set<T>, options?: SetationArrayOptions): Generator<T[], void, unknown>;
-/**
- * @function combination
- * @description List combinations from a set.
- * @template {unknown} T
- * @param {T[] | Set<T>} set Set.
- * @param {number | number[] | SetationArrayOptions} [param1]
- * @param {number} [param2]
- * @returns {Generator<T[], void, unknown>} A combinations subset generator.
- */
 function combination<T>(set: T[] | Set<T>, param1?: number | number[] | SetationArrayOptions, param2?: number): Generator<T[], void, unknown> {
 	let commonOptions: SetationArrayInternalParameters<T> = {
 		considerOrder: false,
@@ -258,8 +236,7 @@ function combination<T>(set: T[] | Set<T>, param1?: number | number[] | Setation
 	});
 }
 /**
- * @function permutation
- * @description List permutations from a set.
+ * List permutations from a set.
  * @template {unknown} T
  * @param {T[] | Set<T>} set Set.
  * @param {number | number[]} size Size of the subset.
@@ -267,8 +244,7 @@ function combination<T>(set: T[] | Set<T>, param1?: number | number[] | Setation
  */
 function permutation<T>(set: T[] | Set<T>, size: number | number[]): Generator<T[], void, unknown>;
 /**
- * @function permutation
- * @description List permutations from a set.
+ * List permutations from a set.
  * @template {unknown} T
  * @param {T[] | Set<T>} set Set.
  * @param {number} sizeMinimum Minimum size of the subset.
@@ -277,23 +253,13 @@ function permutation<T>(set: T[] | Set<T>, size: number | number[]): Generator<T
  */
 function permutation<T>(set: T[] | Set<T>, sizeMinimum: number, sizeMaximum: number): Generator<T[], void, unknown>;
 /**
- * @function permutation
- * @description List permutations from a set.
+ * List permutations from a set.
  * @template {unknown} T
  * @param {T[] | Set<T>} set Set.
  * @param {SetationArrayOptions} [options] Options.
  * @returns {Generator<T[], void, unknown>} A permutations subset generator.
  */
 function permutation<T>(set: T[] | Set<T>, options?: SetationArrayOptions): Generator<T[], void, unknown>;
-/**
- * @function combination
- * @description List permutations from a set.
- * @template {unknown} T
- * @param {T[] | Set<T>} set Set.
- * @param {number | number[] | SetationArrayOptions} [param1]
- * @param {number} [param2]
- * @returns {Generator<T[], void, unknown>} A permutations subset generator.
- */
 function permutation<T>(set: T[] | Set<T>, param1?: number | number[] | SetationArrayOptions, param2?: number): Generator<T[], void, unknown> {
 	let commonOptions: SetationArrayInternalParameters<T> = {
 		considerOrder: true,
