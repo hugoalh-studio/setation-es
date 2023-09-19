@@ -22,7 +22,7 @@ A NodeJS module to list permutations and combinations from a set.
 - **Domain/Registry:**
   - [NPM](https://www.npmjs.com/package/@hugoalh/setation)
     ```sh
-    bun add @hugoalh/setation
+    bun add @hugoalh/setation[@<Tag>]
     ```
     ```js
     import ... from "@hugoalh/setation[@<Tag>]";
@@ -38,7 +38,7 @@ A NodeJS module to list permutations and combinations from a set.
 - **Domain/Registry:**
   - [NPM](https://www.npmjs.com/package/@hugoalh/setation)
     ```sh
-    npm install @hugoalh/setation
+    npm install @hugoalh/setation[@<Tag>]
     ```
     ```js
     import ... from "@hugoalh/setation";
