@@ -1,93 +1,209 @@
-# Setation (NodeJS)
+# Setation (ES)
 
-[⚖️ MIT](./LICENSE.md)
-[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/hugoalh-studio/setation-nodejs?label=Grade&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor Grade")](https://www.codefactor.io/repository/github/hugoalh-studio/setation-nodejs)
+[**⚖️** MIT](./LICENSE.md)
 
-|  | **Release - Latest** | **Release - Pre** |
-|:-:|:-:|:-:|
-| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh-studio/setation-nodejs) | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh-studio/setation-nodejs?sort=semver&label=&style=flat-square "GitHub Latest Release Version") (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh-studio/setation-nodejs?label=&style=flat-square "GitHub Latest Release Date")) | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh-studio/setation-nodejs?include_prereleases&sort=semver&label=&style=flat-square "GitHub Latest Pre-Release Version") (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh-studio/setation-nodejs?label=&style=flat-square "GitHub Latest Pre-Release Date")) |
-| [![NPM](https://img.shields.io/badge/NPM-CB3837?logo=npm&logoColor=ffffff&style=flat-square "NPM")](https://www.npmjs.com/package/@hugoalh/setation) | ![NPM Latest Release Version](https://img.shields.io/npm/v/@hugoalh/setation/latest?label=&style=flat-square "NPM Latest Release Version") | ![NPM Latest Pre-Release Version](https://img.shields.io/npm/v/@hugoalh/setation/pre?label=&style=flat-square "NPM Latest Pre-Release Version") |
+[![GitHub: hugoalh-studio/setation-es](https://img.shields.io/github/v/release/hugoalh-studio/setation-es?label=hugoalh-studio/setation-es&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh-studio/setation-es")](https://github.com/hugoalh-studio/setation-es)
+[![JSR: @hugoalh/setation](https://img.shields.io/jsr/v/@hugoalh/setation?label=JSR%20@hugoalh/setation&labelColor=F7DF1E&logoColor=000000&style=flat "JSR: @hugoalh/setation")](https://jsr.io/@hugoalh/setation)
+[![NPM: @hugoalh/setation](https://img.shields.io/npm/v/@hugoalh/setation?label=@hugoalh/setation&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/setation")](https://www.npmjs.com/package/@hugoalh/setation)
 
-A NodeJS module to list permutations and combinations from a set.
+An ES (JavaScript & TypeScript) module to list permutations and combinations from a set.
 
-## 🔰 Begin
+## 🎯 Target
 
-### Bun
+- Bun ^ v1.0.0
+- Cloudflare Workers
+- Deno >= v1.34.0 / >= v1.41.1 (For JSR Only)
+  > **🛡️ Require Permission**
+  >
+  > *N/A*
+- NodeJS >= v16.13.0
 
-> **🧪 Experimental:** Bun is still under development.
+## 🔰 Usage
 
-- **Target Version:** ^ v1.0.0, &:
-  - TypeScript >= v5.1.0 *\[Development\]*
-- **Require Permission:** *N/A*
-- **Domain/Registry:**
-  - [NPM](https://www.npmjs.com/package/@hugoalh/setation)
-    ```sh
-    bun add @hugoalh/setation[@<Tag>]
-    ```
-    ```js
-    import ... from "@hugoalh/setation[@<Tag>]";
-    ```
+### Via JSR With `node_modules`
 
-> **ℹ️ Notice:** It is also able to import part of the module with sub path if available, see [file `package.json`](./package.json) property `exports` for available sub paths.
+> **🎯 Supported Target**
+>
+> - Bun
+> - Cloudflare Workers
+> - NodeJS
 
-### NodeJS
-
-- **Target Version:** ^ v12.20.0 \|\| ^ v14.15.0 \|\| >= v16.13.0, &:
-  - TypeScript >= v5.1.0 *\[Development\]*
-- **Require Permission:** *N/A*
-- **Domain/Registry:**
-  - [NPM](https://www.npmjs.com/package/@hugoalh/setation)
-    ```sh
-    npm install @hugoalh/setation[@<Tag>]
-    ```
-    ```js
+1. Install via:
+    - Bun
+      ```sh
+      bunx jsr add @hugoalh/setation[@${Tag}]
+      ```
+    - NPM
+      ```sh
+      npx jsr add @hugoalh/setation[@${Tag}]
+      ```
+    - PNPM
+      ```sh
+      pnpm dlx jsr add @hugoalh/setation[@${Tag}]
+      ```
+    - Yarn
+      ```sh
+      yarn dlx jsr add @hugoalh/setation[@${Tag}]
+      ```
+2. Import at the script:
+    ```ts
     import ... from "@hugoalh/setation";
     ```
 
-> **ℹ️ Notice:** It is also able to import part of the module with sub path if available, see [file `package.json`](./package.json) property `exports` for available sub paths.
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module, it is also able to import part of the module with sub path if available, please visit [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub paths.
+> - It is recommended to import the module with tag for immutability.
+
+### Via JSR With Specifier
+
+> **🎯 Supported Target**
+>
+> - Deno
+
+1. Import at the script:
+    ```ts
+    import ... from "jsr:@hugoalh/setation[@${Tag}]";
+    ```
+
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module, it is also able to import part of the module with sub path if available, please visit [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub paths.
+> - It is recommended to import the module with tag for immutability.
+
+### Via NPM With `node_modules`
+
+> **🎯 Supported Target**
+>
+> - Cloudflare Workers
+> - NodeJS
+
+1. Install via:
+    - NPM
+      ```sh
+      npm install @hugoalh/setation[@${Tag}]
+      ```
+    - PNPM
+      ```sh
+      pnpm add @hugoalh/setation[@${Tag}]
+      ```
+    - Yarn
+      ```sh
+      yarn add @hugoalh/setation[@${Tag}]
+      ```
+2. Import at the script:
+    ```ts
+    import ... from "@hugoalh/setation";
+    ```
+
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module, it is also able to import part of the module with sub path if available, please visit [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub paths.
+> - It is recommended to import the module with tag for immutability.
+
+### Via NPM With Specifier
+
+> **🎯 Supported Target**
+>
+> - Bun
+> - Deno
+
+1. Import at the script:
+    ```ts
+    import ... from "npm:@hugoalh/setation[@${Tag}]";
+    ```
+
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module, it is also able to import part of the module with sub path if available, please visit [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub paths.
+> - It is recommended to import the module with tag for immutability.
+
+### Via Remote Import
+
+> **🎯 Supported Target**
+>
+> - Deno
+
+1. Import at the script:
+    ```ts
+    /* Via GitHub Raw (Require Tag) */
+    import ... from "https://raw.githubusercontent.com/hugoalh-studio/setation-es/${Tag}/mod.ts";
+    ```
+
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module with the main path `mod.ts`, it is also able to import part of the module with sub path if available, but do not import if:
+>
+>   - it's file path has an underscore prefix (e.g.: `_foo.ts`, `_util/bar.ts`), or
+>   - it is a benchmark or test file (e.g.: `foo.bench.ts`, `foo.test.ts`), or
+>   - it's symbol has an underscore prefix (e.g.: `export function _baz() {}`).
+>
+>   These elements are not considered part of the public API, thus no stability is guaranteed for them.
+> - Although there have 3rd party services which provide enhanced, equal, or similar methods/ways to remote import the module, beware these services maybe inject unrelated elements and thus affect the security.
 
 ## 🧩 API
 
 - ```ts
-  function* combination<T>(set: T[] | Set<T>, size: number | number[]): Generator<T[], void, unknown>;
-  function* combination<T>(set: T[] | Set<T>, sizeMinimum: number, sizeMaximum: number): Generator<T[], void, unknown>;
-  function* combination<T>(set: T[] | Set<T>, options: CombinationOptions = {}): Generator<T[], void, unknown>;
+  function combinationMatrix<V>(set: { [x: string]: V[]; }): Generator<{ [x: string]: V; }>;
+  function combinationMatrix<K, V>(set: Map<K, V[]>): Generator<Map<K, V>>;
   ```
 - ```ts
-  /* >= v1.2.0 */
-  function* combinationMatrix<V>(set: { [x: string]: V | V[]; } | Map<string, V | V[]>): Generator<{ [x: string]: V; }, void, unknown>;
+  function combinationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]>;
   ```
 - ```ts
-  function* permutation<T>(set: T[] | Set<T>, size: number | number[]): Generator<T[], void, unknown>;
-  function* permutation<T>(set: T[] | Set<T>, sizeMinimum: number, sizeMaximum: number): Generator<T[], void, unknown>;
-  function* permutation<T>(set: T[] | Set<T>, options: PermutationOptions = {}): Generator<T[], void, unknown>;
+  function permutationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]>;
   ```
 - ```ts
-  interface CombinationOptions {
-    allowRepeat: boolean = false;// Whether to allow the same element repeat appear in the same subset.
-    size?: number | number[];// Size of the subset.
-    sizeMaximum?: number;// Maximum size of the subset.
-    sizeMinimum?: number;// Minimum size of the subset.
-  }
-  ```
-- ```ts
-  interface PermutationOptions {
-    allowRepeat: boolean = false;// Whether to allow the same element repeat appear in the same subset.
-    size?: number | number[];// Size of the subset.
-    sizeMaximum?: number;// Maximum size of the subset.
-    sizeMinimum?: number;// Minimum size of the subset.
+  interface SetationSetOptions {
+    /**
+     * Whether to allow the same element repeat appear in the same subset.
+     * 
+     * When this value is `true`, require option `size`, or options `sizeMaximum` and `sizeMinimum`.
+     * @default false
+     */
+    allowRepeat?: boolean;
+    /**
+     * Fixed size of the subset.
+     * 
+     * Conflict with options `sizeMaximum` and `sizeMinimum`.
+     * @default undefined
+     */
+    size?: number | number[];
+    /**
+     * Maximum size of the subset.
+     * 
+     * Require option `sizeMinimum`.
+     *
+     * Conflict with option `size`.
+     * @default undefined
+     */
+    sizeMaximum?: number;
+    /**
+     * Minimum size of the subset.
+     * 
+     * Require option `sizeMaximum`.
+     *
+     * Conflict with option `size`.
+     * @default undefined
+     */
+    sizeMinimum?: number;
   }
   ```
 
-> **ℹ️ Notice:** Documentation is included inside the script file.
+> **ℹ️ Note**
+>
+> For the prettier documentation, can visit via:
+>
+> - [Deno CLI `deno doc`](https://deno.land/manual/tools/documentation_generator)
+> - [JSR](https://jsr.io/@hugoalh/setation)
+
 
 ## ✍️ Example
 
 - ```js
-  import { combination, permutation } from "@hugoalh/setation";
   const item = ["a", "b", "c", "d", "e", "f"];
 
-  Array.from(combination(item, 3));
+  Array.from(combinationSet(item, { size: 3 }));
   /*=>
   [
     [ "a", "b", "c" ], [ "a", "b", "d" ],
@@ -103,7 +219,7 @@ A NodeJS module to list permutations and combinations from a set.
   ]
   */
 
-  Array.from(permutation(item, 3));
+  Array.from(permutationSet(item, { size: 3 }));
   /*=>
   [
     [ "a", "b", "c" ], [ "a", "b", "d" ],
@@ -131,8 +247,6 @@ A NodeJS module to list permutations and combinations from a set.
   */
   ```
 - ```js
-  import { combinationMatrix } from "@hugoalh/setation";
-
   Array.from(combinationMatrix({ foo: [1, 2, 3], bar: [4, 5, 6] }));
   /*=>
   [

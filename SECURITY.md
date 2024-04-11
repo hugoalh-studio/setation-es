@@ -2,18 +2,31 @@
 
 ## Supported Versions
 
-> | **Legend** | **Description** |
-> |:-:|:--|
-> | L | **LTS:** Long term supported. |
-> | ✔️ | **Active / Current:** Currently supported. |
-> | 👎{🐛} | **Partially (Issue):** Partially supported due to confirmed contains bugs and/or issues. |
-> | 👎{🧓} | **Partially (Old):** Partially supported due to deprecated by newer versions. |
-> | ❌{🐛} | **No (Issue):** Not supported due to confirmed contains bugs and/or issues. |
-> | ❌{🧓} | **No (Old):** Not supported due to too old. |
+> ```mermaid
+> ---
+> title: Versions Status Flow
+> ---
+> flowchart LR
+>   Unstable("Unstable")
+>   Pre("Pre Release")
+>   Release("Release")
+>   LTS("Long Term Support")
+>   Maintenance("Maintenance")
+>   EOL("End Of Life")
+>   Unstable --> Pre
+>   Pre --> Release
+>   subgraph Support
+>     Release -- Major = 0 --> Maintenance
+>     Release -- Major > 0 --> LTS
+>     LTS --> Maintenance
+>   end
+>   Maintenance --> EOL
+> ```
 
-| **Versions** | **Status** | **Target - Bun** | **Target - NodeJS** |
+| **Versions** | **Release Date** | **Long Term Support Date** | **End Of Life Date** |
 |:-:|:-:|:-:|:-:|
-| v1.X.X | L | ^ v1.0.0 | ^ v12.20.0 \|\| ^ v14.15.0 \|\| >= v16.13.0 |
+| v2.X.X | *Unknown* | *Unknown* | *Unknown* |
+| v1.X.X | 2023-04-05 | 2023-04-19 | *Unknown* |
 
 ## Report A Vulnerability
 
