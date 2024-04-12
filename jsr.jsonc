@@ -3,6 +3,8 @@
 	"name": "@hugoalh/setation",
 	"version": "2.0.0",
 	"exports": {
+		"./matrix": "./matrix.ts",
+		"./set": "./set.ts",
 		".": "./mod.ts"
 	},
 	"imports": { },
