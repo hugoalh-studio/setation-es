@@ -6,7 +6,11 @@ import { ensureDir } from "STD/fs/ensure_dir.ts";
 import { walk as readDir, type WalkEntry } from "STD/fs/walk.ts";
 const pathsMain: WalkEntry[] = await Array.fromAsync(readDir("."));
 const transformResult: TransformOutput = await transform({
-	entryPoints: ["mod.ts"],
+	entryPoints: [
+		"mod.ts",
+		"matrix.ts",
+		"set.ts"
+	],
 	mappings: {},
 	shims: [],
 	target: "Latest"
