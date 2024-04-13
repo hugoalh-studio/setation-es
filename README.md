@@ -149,9 +149,11 @@ An ES (JavaScript & TypeScript) module to list permutations and combinations fro
   ```
 - ```ts
   function combinationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]>;
+  function combinationSet<T>(set: T[] | Set<T>, size: Required<SetationSetOptions>["size"]): Generator<T[]>;
   ```
 - ```ts
   function permutationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]>;
+  function permutationSet<T>(set: T[] | Set<T>, size: Required<SetationSetOptions>["size"]): Generator<T[]>;
   ```
 - ```ts
   interface SetationSetOptions {
@@ -203,7 +205,7 @@ An ES (JavaScript & TypeScript) module to list permutations and combinations fro
 - ```js
   const item = ["a", "b", "c", "d", "e", "f"];
 
-  Array.from(combinationSet(item, { size: 3 }));
+  Array.from(combinationSet(item, 3));
   /*=>
   [
     [ "a", "b", "c" ], [ "a", "b", "d" ],
@@ -219,7 +221,7 @@ An ES (JavaScript & TypeScript) module to list permutations and combinations fro
   ]
   */
 
-  Array.from(permutationSet(item, { size: 3 }));
+  Array.from(permutationSet(item, 3));
   /*=>
   [
     [ "a", "b", "c" ], [ "a", "b", "d" ],

@@ -170,9 +170,28 @@ function* setationSet<T>({
  * @param {SetationSetOptions} [options={}] Options.
  * @returns {Generator<T[]>} A combinations subset generator.
  */
-export function combinationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]> {
+export function combinationSet<T>(set: T[] | Set<T>, options?: SetationSetOptions): Generator<T[]>;
+/**
+ * List combinations from a set.
+ * @template {unknown} T
+ * @param {T[] | Set<T>} set Set.
+ * @param {Required<SetationSetOptions>["size"]} size Fixed size of the subset.
+ * @returns {Generator<T[]>} A combinations subset generator.
+ */
+export function combinationSet<T>(set: T[] | Set<T>, size: Required<SetationSetOptions>["size"]): Generator<T[]>;
+export function combinationSet<T>(set: T[] | Set<T>, param1?: SetationSetOptions | Required<SetationSetOptions>["size"]): Generator<T[]> {
+	if (
+		typeof param1 === "number" ||
+		Array.isArray(param1)
+	) {
+		return setationSet<T>({
+			considerOrder: false,
+			set,
+			size: param1
+		});
+	}
 	return setationSet<T>({
-		...options,
+		...(param1 ?? {}),
 		considerOrder: false,
 		set
 	});
@@ -184,9 +203,28 @@ export function combinationSet<T>(set: T[] | Set<T>, options: SetationSetOptions
  * @param {SetationSetOptions} [options={}] Options.
  * @returns {Generator<T[]>} A permutations subset generator.
  */
-export function permutationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]> {
+export function permutationSet<T>(set: T[] | Set<T>, options?: SetationSetOptions): Generator<T[]>;
+/**
+ * List permutations from a set.
+ * @template {unknown} T
+ * @param {T[] | Set<T>} set Set.
+ * @param {Required<SetationSetOptions>["size"]} size Fixed size of the subset.
+ * @returns {Generator<T[]>} A permutations subset generator.
+ */
+export function permutationSet<T>(set: T[] | Set<T>, size: Required<SetationSetOptions>["size"]): Generator<T[]>;
+export function permutationSet<T>(set: T[] | Set<T>, param1?: SetationSetOptions | Required<SetationSetOptions>["size"]): Generator<T[]> {
+	if (
+		typeof param1 === "number" ||
+		Array.isArray(param1)
+	) {
+		return setationSet<T>({
+			considerOrder: true,
+			set,
+			size: param1
+		});
+	}
 	return setationSet<T>({
-		...options,
+		...(param1 ?? {}),
 		considerOrder: true,
 		set
 	});
