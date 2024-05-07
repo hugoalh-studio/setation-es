@@ -3,19 +3,19 @@
  * @access private
  * @template {unknown} K
  * @template {unknown} V
- * @param {Map<K, V>} item
+ * @param {Map<K, V[]>} item
  * @param {...K} keys
- * @returns {Map<K, V>}
+ * @returns {Map<K, V[]>}
  */
-function sliceMap<K, V>(item: Map<K, V>, ...keys: K[]): Map<K, V> {
-	const itemClone: Map<K, V> = new Map<K, V>(item);
+function sliceMap<K, V>(item: Map<K, V[]>, ...keys: K[]): Map<K, V[]> {
+	const itemClone: Map<K, V[]> = new Map<K, V[]>(item);
 	for (const key of keys) {
 		itemClone.delete(key);
 	}
 	return itemClone;
 }
 /**
- * Iterate setation `Map`.
+ * Iterate matrix.
  * @access private
  * @template {unknown} K
  * @template {unknown} V
@@ -23,15 +23,19 @@ function sliceMap<K, V>(item: Map<K, V>, ...keys: K[]): Map<K, V> {
  * @param {Map<K, V>} [chain=new Map<K, V>()]
  * @returns {Generator<Map<K, V>>}
  */
-function* setationMapIterator<K, V>(set: Map<K, V[]>, chain: Map<K, V> = new Map<K, V>()): Generator<Map<K, V>> {
+function* setationMatrixIterator<K, V>(set: Map<K, V[]>, chain: Map<K, V> = new Map<K, V>()): Generator<Map<K, V>> {
+	if (set.size === 0) {
+		yield chain;
+		return;
+	}
 	const currentKey: K = Array.from(set.keys())[0];
-	const rest: Map<K, V[]> = sliceMap<K, V[]>(set, currentKey);
+	const rest: Map<K, V[]> = sliceMap(set, currentKey);
 	for (const currentValue of set.get(currentKey)!) {
 		chain.set(currentKey, currentValue);
 		if (rest.size === 0) {
 			yield new Map<K, V>(chain);
 		} else {
-			yield* setationMapIterator(rest, chain);
+			yield* setationMatrixIterator(rest, chain);
 		}
 	}
 }
@@ -51,19 +55,11 @@ export function combinationMatrix<V>(set: { [x: string]: V[]; }): Generator<{ [x
  */
 export function combinationMatrix<K, V>(set: Map<K, V[]>): Generator<Map<K, V>>;
 export function* combinationMatrix<K, V>(set: { [x: string]: V[]; } | Map<K, V[]>) {
-	let resultIsMap = false;
-	let setResolve: Map<K, V[]>;
 	if (set instanceof Map) {
-		resultIsMap = true;
-		setResolve = new Map<K, V[]>(set);
-	} else {
-		setResolve = new Map<K, V[]>(Object.entries(set) as [K, V[]][]);
-	}
-	if (setResolve.size === 0) {
-		yield (resultIsMap ? new Map<K, V>() : {});
+		yield* setationMatrixIterator(new Map<K, V[]>(set));
 		return;
 	}
-	for (const item of setationMapIterator(setResolve)) {
-		yield (resultIsMap ? item : Object.fromEntries(item.entries()));
+	for (const item of setationMatrixIterator(new Map<K, V[]>(Object.entries(set) as [K, V[]][]))) {
+		yield Object.fromEntries(item.entries());
 	}
 }

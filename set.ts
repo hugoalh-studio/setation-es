@@ -1,3 +1,11 @@
+/**
+ * Sort numeric array in ascending order.
+ * @access private
+ * @template {bigint | number} T
+ * @param {T} a
+ * @param {T} b
+ * @returns {-1 | 0 | 1}
+ */
 function sortNumericAscend<T extends bigint | number>(a: T, b: T): -1 | 0 | 1 {
 	if (a < b) {
 		return -1;
@@ -13,6 +21,12 @@ interface SetationSetIndexIteratorParameters {
 	set: number[];
 	size: number;
 }
+/**
+ * Iterate set index.
+ * @access private
+ * @param {SetationSetIndexIteratorParameters} param0
+ * @returns {Generator<number[]>}
+ */
 function* setationSetIndexIterator({
 	allowRepeat = false,
 	chain = [],
