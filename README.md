@@ -69,46 +69,36 @@ An ES (JavaScript & TypeScript) module to list permutations and combinations fro
   ```
 - ```ts
   function combinationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]>;
-  function combinationSet<T>(set: T[] | Set<T>, size: Required<SetationSetOptions>["size"]): Generator<T[]>;
   ```
 - ```ts
   function permutationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]>;
-  function permutationSet<T>(set: T[] | Set<T>, size: Required<SetationSetOptions>["size"]): Generator<T[]>;
   ```
 - ```ts
   interface SetationSetOptions {
     /**
      * Whether to allow the same element repeat appear in the same subset.
      * 
-     * When this value is `true`, require option `size`, or options `sizeMaximum` and `sizeMinimum`.
+     * When this value is `true`, require property `size`.
      * @default false
      */
     allowRepeat?: boolean;
     /**
      * Fixed size of the subset.
-     * 
-     * Conflict with options `sizeMaximum` and `sizeMinimum`.
      * @default undefined
      */
-    size?: number | number[];
+    size?: number | number[] | SetationSetSizeOptions;
+  }
+  ```
+- ```ts
+  interface SetationSetSizeOptions {
     /**
      * Maximum size of the subset.
-     * 
-     * Require option `sizeMinimum`.
-     *
-     * Conflict with option `size`.
-     * @default undefined
      */
-    sizeMaximum?: number;
+    maximum: number;
     /**
      * Minimum size of the subset.
-     * 
-     * Require option `sizeMaximum`.
-     *
-     * Conflict with option `size`.
-     * @default undefined
      */
-    sizeMinimum?: number;
+    minimum: number;
   }
   ```
 
@@ -125,7 +115,7 @@ An ES (JavaScript & TypeScript) module to list permutations and combinations fro
 - ```js
   const item = ["a", "b", "c", "d", "e", "f"];
 
-  Array.from(combinationSet(item, 3));
+  Array.from(combinationSet(item, { size: 3 }));
   /*=>
   [
     [ "a", "b", "c" ], [ "a", "b", "d" ],
@@ -141,7 +131,7 @@ An ES (JavaScript & TypeScript) module to list permutations and combinations fro
   ]
   */
 
-  Array.from(permutationSet(item, 3));
+  Array.from(permutationSet(item, { size: 3 }));
   /*=>
   [
     [ "a", "b", "c" ], [ "a", "b", "d" ],

@@ -4,9 +4,9 @@
  * @template {bigint | number} T
  * @param {T} a
  * @param {T} b
- * @returns {-1 | 0 | 1}
+ * @returns {number}
  */
-function sortNumericAscend<T extends bigint | number>(a: T, b: T): -1 | 0 | 1 {
+function sortNumericAscend<T extends bigint | number>(a: T, b: T): number {
 	if (a < b) {
 		return -1;
 	}
@@ -49,39 +49,29 @@ function* setationSetIndexIterator({
 		}
 	}
 }
+export interface SetationSetSizeOptions {
+	/**
+	 * Maximum size of the subset.
+	 */
+	maximum: number;
+	/**
+	 * Minimum size of the subset.
+	 */
+	minimum: number;
+}
 export interface SetationSetOptions {
 	/**
 	 * Whether to allow the same element repeat appear in the same subset.
 	 * 
-	 * When this value is `true`, require option {@linkcode size}, or options {@linkcode sizeMaximum} and {@linkcode sizeMinimum}.
+	 * When this value is `true`, require property {@linkcode size}.
 	 * @default false
 	 */
 	allowRepeat?: boolean;
 	/**
-	 * Fixed size of the subset.
-	 * 
-	 * Conflict with options {@linkcode sizeMaximum} and {@linkcode sizeMinimum}.
+	 * Size of the subset.
 	 * @default undefined
 	 */
-	size?: number | number[];
-	/**
-	 * Maximum size of the subset.
-	 * 
-	 * Require option {@linkcode sizeMinimum}.
-	 * 
-	 * Conflict with option {@linkcode size}.
-	 * @default undefined
-	 */
-	sizeMaximum?: number;
-	/**
-	 * Minimum size of the subset.
-	 * 
-	 * Require option {@linkcode sizeMaximum}.
-	 * 
-	 * Conflict with option {@linkcode size}.
-	 * @default undefined
-	 */
-	sizeMinimum?: number;
+	size?: number | number[] | SetationSetSizeOptions;
 }
 interface SetationSetParameters<T> extends SetationSetOptions {
 	considerOrder: boolean;
@@ -91,62 +81,51 @@ function* setationSet<T>({
 	allowRepeat = false,
 	considerOrder,
 	size,
-	sizeMaximum,
-	sizeMinimum,
 	set
 }: SetationSetParameters<T>): Generator<T[]> {
-	const setResolve: T[] = (set instanceof Set) ? Array.from(set.values()) : [...set];
+	const setFmt: T[] = (set instanceof Set) ? Array.from(set.values()) : [...set];
 	const sizesResolve: number[] = [];
-	if (typeof size !== "undefined" && (
-		typeof sizeMaximum !== "undefined" ||
-		typeof sizeMinimum !== "undefined"
+	if (allowRepeat && (
+		typeof size === "undefined" ||
+		(Array.isArray(size) && size.length === 0)
 	)) {
-		throw new SyntaxError(`Argument \`options.size\` must not defined with arguments \`options.sizeMaximum\` and/or \`options.sizeMinimum\`!`);
+		throw new SyntaxError(`Parameter \`options.size\` must be defined when parameter \`options.allowRepeat\` is \`true\`!`);
 	}
-	if (allowRepeat && !(
-		typeof size !== "undefined" ||
-		(typeof sizeMaximum !== "undefined" && typeof sizeMinimum !== "undefined")
-	)) {
-		throw new SyntaxError(`When argument \`options.allowRepeat\` is \`true\`, argument \`options.size\` or arguments \`options.sizeMaximum\` and \`options.sizeMinimum\` must be defined!`);
-	}
-	if (typeof size === "undefined" && typeof sizeMaximum === "undefined" && typeof sizeMinimum === "undefined") {
-		for (let index = 1; index <= setResolve.length; index += 1) {
+	if (typeof size === "undefined") {
+		for (let index = 1; index <= setFmt.length; index += 1) {
 			sizesResolve.push(index);
 		}
-	} else if (typeof size !== "undefined") {
-		if (!Array.isArray(size)) {
-			size = [size];
-		}
-		if (!size.every((value: number): boolean => {
+	} else if (
+		typeof size === "number" ||
+		Array.isArray(size)
+	) {
+		const sizesRaw: number[] = Array.isArray(size) ? size : [size];
+		sizesRaw.forEach((value: number, index: number): void => {
 			if (
 				!(Number.isSafeInteger(value) && value >= 0) ||
-				(!allowRepeat && !(value <= setResolve.length))
+				(!allowRepeat && !(value <= setFmt.length))
 			) {
-				return false;
+				throw new TypeError(`\`${value}\` (parameter \`options.size[${index}]\`) is not a number which is integer, positive, safe and <= ${setFmt.length}!`);
 			}
-			return true;
-		})) {
-			throw new TypeError(`Argument \`options.size\` is not a number or a number[] which is integer, positive, safe and <= ${setResolve.length}!`);
-		}
-		sizesResolve.push(...size);
-	} else if (typeof sizeMaximum !== "undefined" && typeof sizeMinimum !== "undefined") {
+		});
+		sizesResolve.push(...sizesRaw);
+	} else {
+		const { maximum: sizeMaximum, minimum: sizeMinimum } = size;
 		if (
 			!(Number.isSafeInteger(sizeMaximum) && sizeMaximum >= 0) ||
-			(!allowRepeat && !(sizeMaximum <= setResolve.length))
+			(!allowRepeat && !(sizeMaximum <= setFmt.length))
 		) {
-			throw new RangeError(`Argument \`options.sizeMaximum\` is not a number which is integer, positive${allowRepeat ? " and safe" : `, safe, and <= ${setResolve.length}`}!`);
+			throw new RangeError(`\`${sizeMaximum}\` (parameter \`options.size.maximum\`) is not a number which is integer, positive${allowRepeat ? " and safe" : `, safe, and <= ${setFmt.length}`}!`);
 		}
 		if (!(Number.isSafeInteger(sizeMinimum) && sizeMinimum >= 0 && sizeMinimum <= sizeMaximum)) {
-			throw new RangeError(`Argument \`options.sizeMinimum\` is not a number which is integer, positive, safe, and <= ${sizeMaximum}!`);
+			throw new RangeError(`\`${sizeMinimum}\` (parameter \`options.size.minimum\`) is not a number which is integer, positive, safe, and <= ${sizeMaximum}!`);
 		}
 		for (let index: number = sizeMinimum; index <= sizeMaximum; index += 1) {
 			sizesResolve.push(index);
 		}
-	} else {
-		throw new SyntaxError(`Argument \`options.size\` or arguments \`options.sizeMaximum\` and \`options.sizeMinimum\` must be defined or all undefined!`);
 	}
 	if (
-		setResolve.length === 0 ||
+		setFmt.length === 0 ||
 		sizesResolve.length === 0
 	) {
 		yield [];
@@ -160,7 +139,7 @@ function* setationSet<T>({
 		const patternsStorage: Set<string> = new Set<string>();
 		for (const resultIndex of setationSetIndexIterator({
 			allowRepeat,
-			set: setResolve.map((_value: T, index: number): number => {
+			set: setFmt.map((_value: T, index: number): number => {
 				return index;
 			}),
 			size: sizeResolve
@@ -172,7 +151,7 @@ function* setationSet<T>({
 			}
 			patternsStorage.add(resultIndexResolveToken);
 			yield resultIndexResolve.map((value: number): T => {
-				return setResolve[value];
+				return setFmt[value];
 			});
 		}
 	}
@@ -184,28 +163,9 @@ function* setationSet<T>({
  * @param {SetationSetOptions} [options={}] Options.
  * @returns {Generator<T[]>} A combinations subset generator.
  */
-export function combinationSet<T>(set: T[] | Set<T>, options?: SetationSetOptions): Generator<T[]>;
-/**
- * List combinations from a set.
- * @template {unknown} T
- * @param {T[] | Set<T>} set Set.
- * @param {Required<SetationSetOptions>["size"]} size Fixed size of the subset.
- * @returns {Generator<T[]>} A combinations subset generator.
- */
-export function combinationSet<T>(set: T[] | Set<T>, size: Required<SetationSetOptions>["size"]): Generator<T[]>;
-export function combinationSet<T>(set: T[] | Set<T>, param1?: SetationSetOptions | Required<SetationSetOptions>["size"]): Generator<T[]> {
-	if (
-		typeof param1 === "number" ||
-		Array.isArray(param1)
-	) {
-		return setationSet<T>({
-			considerOrder: false,
-			set,
-			size: param1
-		});
-	}
+export function combinationSet<T>(set: T[] | Set<T>, options?: SetationSetOptions): Generator<T[]> {
 	return setationSet<T>({
-		...(param1 ?? {}),
+		...options,
 		considerOrder: false,
 		set
 	});
@@ -217,28 +177,9 @@ export function combinationSet<T>(set: T[] | Set<T>, param1?: SetationSetOptions
  * @param {SetationSetOptions} [options={}] Options.
  * @returns {Generator<T[]>} A permutations subset generator.
  */
-export function permutationSet<T>(set: T[] | Set<T>, options?: SetationSetOptions): Generator<T[]>;
-/**
- * List permutations from a set.
- * @template {unknown} T
- * @param {T[] | Set<T>} set Set.
- * @param {Required<SetationSetOptions>["size"]} size Fixed size of the subset.
- * @returns {Generator<T[]>} A permutations subset generator.
- */
-export function permutationSet<T>(set: T[] | Set<T>, size: Required<SetationSetOptions>["size"]): Generator<T[]>;
-export function permutationSet<T>(set: T[] | Set<T>, param1?: SetationSetOptions | Required<SetationSetOptions>["size"]): Generator<T[]> {
-	if (
-		typeof param1 === "number" ||
-		Array.isArray(param1)
-	) {
-		return setationSet<T>({
-			considerOrder: true,
-			set,
-			size: param1
-		});
-	}
+export function permutationSet<T>(set: T[] | Set<T>, options: SetationSetOptions = {}): Generator<T[]> {
 	return setationSet<T>({
-		...(param1 ?? {}),
+		...options,
 		considerOrder: true,
 		set
 	});
